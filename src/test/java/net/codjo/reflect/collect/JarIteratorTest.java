@@ -4,12 +4,13 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.reflect.collect;
+import junit.framework.TestCase;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import junit.framework.TestCase;
 /**
  * Class de test de <code>JarIterator</code>
  *
@@ -22,16 +23,13 @@ public class JarIteratorTest extends TestCase {
 
     public void test_javaAppletFramework() throws Exception {
         List<String> expectedClassFiles = new ArrayList<String>();
-        expectedClassFiles.add("java/applet/Applet$AccessibleApplet.class");
-        expectedClassFiles.add("java/applet/Applet.class");
-        expectedClassFiles.add("java/applet/AppletContext.class");
-        expectedClassFiles.add("java/applet/AppletStub.class");
-        expectedClassFiles.add("java/applet/AudioClip.class");
+        expectedClassFiles.add("org/junit/After.class");
+        expectedClassFiles.add("org/junit/AfterClass.class");
 
         List<String> foundClasFiles = new ArrayList<String>();
         for (Iterator iter = new JarIterator(javaJarFile); iter.hasNext();) {
             String obj = (String)iter.next();
-            if (obj.startsWith("java/applet")) {
+            if (obj.startsWith("org/junit/After")) {
                 foundClasFiles.add(obj);
             }
         }
@@ -46,7 +44,7 @@ public class JarIteratorTest extends TestCase {
         List<String> foundClasFiles = new ArrayList<String>();
         for (Iterator iter = new JarIterator(javaJarFile); iter.hasNext();) {
             String obj = (String)iter.next();
-            if (obj.endsWith("rowset.properties")) {
+            if (obj.endsWith("MANIFEST.MF")) {
                 foundClasFiles.add(obj);
             }
         }
@@ -57,7 +55,7 @@ public class JarIteratorTest extends TestCase {
 
     @Override
     protected void setUp() throws java.lang.Exception {
-        URL url = TestCase.class.getResource("/java/lang/String.class");
+        URL url = TestCase.class.getResource("/org/junit/runner/JUnitCore.class");
         String urlStr = url.toString();
         int from = "jar:file:".length();
         int to = urlStr.indexOf("!/");

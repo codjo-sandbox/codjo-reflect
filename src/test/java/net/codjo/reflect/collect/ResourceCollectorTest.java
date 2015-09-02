@@ -4,6 +4,8 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.reflect.collect;
+import org.junit.runner.JUnitCore;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,12 +18,9 @@ import java.util.List;
 public class ResourceCollectorTest extends AbstractCollectorTest {
     public void test_addFilter() throws Exception {
         List<String> expectedResourcesFiles = new ArrayList<String>();
-        expectedResourcesFiles.add("/javax/swing/plaf/metal/icons/Error.gif");
-        expectedResourcesFiles.add("/javax/swing/plaf/metal/icons/Inform.gif");
-        expectedResourcesFiles.add("/javax/swing/plaf/metal/icons/Question.gif");
-        expectedResourcesFiles.add("/javax/swing/plaf/metal/icons/Warn.gif");
+        expectedResourcesFiles.add("/META-INF/MANIFEST.MF");
 
-        ResourceCollector collector = new ResourceCollector(String.class);
+        ResourceCollector collector = new ResourceCollector(JUnitCore.class);
         collector.addResourceFilter(new FakeResourceFilter());
         List result = Arrays.asList(collector.collect());
 
@@ -31,14 +30,10 @@ public class ResourceCollectorTest extends AbstractCollectorTest {
 
     public void test_addClassFilter() throws Exception {
         List<String> expectedResourcesFiles = new ArrayList<String>();
-        expectedResourcesFiles.add("/javax/swing/JComboBox$1.class");
-        expectedResourcesFiles.add("/javax/swing/JComboBox$2.class");
-        expectedResourcesFiles.add("/javax/swing/JComboBox$AccessibleJComboBox.class");
-        expectedResourcesFiles.add("/javax/swing/JComboBox$DefaultKeySelectionManager.class");
-        expectedResourcesFiles.add("/javax/swing/JComboBox$KeySelectionManager.class");
-        expectedResourcesFiles.add("/javax/swing/JComboBox.class");
+        expectedResourcesFiles.add("/org/junit/After.class");
+        expectedResourcesFiles.add("/org/junit/AfterClass.class");
 
-        ResourceCollector collector = new ResourceCollector(String.class);
+        ResourceCollector collector = new ResourceCollector(JUnitCore.class);
         collector.setExcludeClassFile(false);
         collector.addResourceFilter(new FakeResourceClassFilter());
         List<String> result = Arrays.asList(collector.collect());
@@ -55,13 +50,13 @@ public class ResourceCollectorTest extends AbstractCollectorTest {
 
     static class FakeResourceFilter implements ResourceFilter {
         public boolean accept(String resourceName) {
-            return resourceName.startsWith("/javax/swing/plaf") && resourceName.endsWith(".gif");
+            return resourceName.startsWith("/META-INF") && resourceName.endsWith(".MF");
         }
     }
 
     static class FakeResourceClassFilter implements ResourceFilter {
         public boolean accept(String resourceName) {
-            return resourceName.startsWith("/javax/swing/JComboBox") && resourceName.endsWith(".class");
+            return resourceName.startsWith("/org/junit/After") && resourceName.endsWith(".class");
         }
     }
 }

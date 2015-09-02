@@ -47,7 +47,7 @@ public class ResourceCollector extends AbstractCollector {
      * Constructeur permettant de réduire le chemins de collecte au chemin contenant la classe
      * <code>fromPath</code>.
      */
-    public ResourceCollector(Class<String> fromPath) {
+    public ResourceCollector(Class<?> fromPath) {
         searchPaths = new String[]{ReflectUtil.determinePathFrom(fromPath)};
     }
 
